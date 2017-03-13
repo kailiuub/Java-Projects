@@ -11,6 +11,8 @@ public class LinkScraper {
 	PriorityQueue<String> q = new PriorityQueue<String>();
 	//Set up a queue to hold second level links
 	PriorityQueue<String> qq = new PriorityQueue<String>();
+	//Define array to save extracted data
+	String[][] arr = new String[5000][3];
 	LinkScraper(){
 		// push 1st urls to q
 		for (LocationEnum l : LocationEnum.values()) {
@@ -19,7 +21,7 @@ public class LinkScraper {
 	}
 	
 	//extract first level urls
-	public void getLink() throws IOException{
+	public String[][] getLink() throws IOException{
 		while (!q.isEmpty()) {
 			// Extract html code
 			String url=q.poll();
@@ -41,7 +43,6 @@ public class LinkScraper {
 			// Parsing contents at 2nd level
 			String url2 = qq.poll();
 			Document d2 = Jsoup.connect(url2).timeout(6000).get();
-			String[][] arr = new String[5000][3];
 			Elements ele2 = d2.select("p.result-info");
 			int i = 0;
 			for (Element e2 : ele2) {
@@ -54,11 +55,11 @@ public class LinkScraper {
 				arr[i][2]=t2;
 				System.out.printf("%s-%s-%s %n",arr[i][0],arr[i][1],arr[i][2]);
 				i++;
-				
 			}
 			
 		}
-		
+	return arr;
 	}
+	
 }
 	
