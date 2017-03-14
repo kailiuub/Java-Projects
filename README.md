@@ -8,6 +8,6 @@ Project Objective:
 5. Save results of web scraping in a .txt file via arrays. 
 
 Notes:
-software: Eclipse IDE
-root links: can be expanded by adding more https in LocationEnum.java
+1. software: Eclipse IDE
+2. root links: can be expanded by adding more https in LocationEnum.java
 
