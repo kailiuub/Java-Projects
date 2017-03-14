@@ -7,7 +7,6 @@ public class SaveData {
 	SaveData(String fn) {
 		//generate file address
 		filepath=System.getProperty("user.dir")+"/" + fn;
-		System.out.println(filepath);
 		//check if exists
 		File x = new File (filepath);
 		if (x.exists())
@@ -17,7 +16,7 @@ public class SaveData {
 			Formatter form;
 			try {
 				form = new Formatter (filepath);
-				System.out.println("new file is created");
+				System.out.printf("%s is created%n",filepath);
 			}
 			catch(Exception e) {
 				System.out.println("error");
@@ -33,9 +32,11 @@ public class SaveData {
 			fw = new FileWriter(filepath, true);
 			bw = new BufferedWriter(fw);
 			out = new PrintWriter (bw);
-			for (int i=0; i<5000; i++) {
-				out.printf("%s\t%s\t%s %n",s[i][0],s[i][1],s[i][2]);
+			for (int i=0; i<5; i++) {
+				out.printf("link: %s %ntitle: %s %ncontents: %s %n%n",s[i][0],s[i][1],s[i][2]);
 			}
+		out.close();
+		System.out.println("contents are appended");	
 		}
 		catch(Exception e) {
 			System.out.println("Error");

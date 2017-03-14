@@ -12,7 +12,6 @@ public class LinkScraper {
 	//Set up a queue to hold second level links
 	PriorityQueue<String> qq = new PriorityQueue<String>();
 	//Define array to save extracted data
-	String[][] arr = new String[5000][3];
 	LinkScraper(){
 		// push 1st urls to q
 		for (LocationEnum l : LocationEnum.values()) {
@@ -21,44 +20,36 @@ public class LinkScraper {
 	}
 	
 	//extract first level urls
-	public String[][] getLink() throws IOException{
+	public void getLink(String[][] arr) throws IOException{
 		while (!q.isEmpty()) {
 			// Extract html code
 			String url=q.poll();
 			Document d = Jsoup.connect(url).timeout(6000).get();
 			// Extract hyperlinks
-			Elements ele = d.select("div#center");
-			Elements links = ele.select("li");
-			for (Element item : links.select("a[href]")) {
+			Elements ele = d.select("h3");
+			for (Element item : ele.select("a[href]")) {
 				// Select Hyperlink
 				String link=item.attr("href");
-				
-				// Put 2nd level links (/search/...) to another queue
-				if (link.startsWith("/search")){
-					qq.offer(url+link);
-				}
+				if (link.startsWith("https://www.yahoo.com")) {
+					qq.offer(link);
+				}	
+				System.out.println(qq);
 			}
 		}
+		int i = 0;
 		while (!qq.isEmpty()) {	
 			// Parsing contents at 2nd level
 			String url2 = qq.poll();
 			Document d2 = Jsoup.connect(url2).timeout(6000).get();
-			Elements ele2 = d2.select("p.result-info");
-			int i = 0;
-			for (Element e2 : ele2) {
-				// title
-				String t2 = e2.text();
-				// links
-				String link2 = e2.select("a").attr("href");
-				arr[i][0]=url2;
-				arr[i][1]=link2;
-				arr[i][2]=t2;
-				System.out.printf("%s-%s-%s %n",arr[i][0],arr[i][1],arr[i][2]);
-				i++;
+			Elements ele2 = d2.select("body");
+			// extract title of each page
+			String t2 = ele2.select("h1").text();
+			String content = ele2.select("article").text();
+			arr[i][0]=url2;
+			arr[i][1]=t2;
+			arr[i][2]=content;
+			i++;
 			}
-			
-		}
-	return arr;
 	}
 	
 }

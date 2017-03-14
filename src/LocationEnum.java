@@ -1,10 +1,6 @@
-
-
 public enum LocationEnum {
-	Buffalo("Buf","https://buffalo.craigslist.org"),
-	NewYork("NYC","https://newyork.craigslist.org"),
-	Syracuse("Syr", "https://syracuse.craigslist.org"),
-	Corning("Cor", "https://corning.craigslist.org");
+	Yahoo("Yah","https://www.yahoo.com/");
+	
 		
 	private final String brief;
 	private final String http;
